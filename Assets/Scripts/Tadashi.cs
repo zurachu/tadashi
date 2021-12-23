@@ -1,29 +1,46 @@
 using System;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 public class Tadashi : MonoBehaviour
 {
-    [SerializeField] private GameObject up;
+    [SerializeField] private GameObject top;
     [SerializeField] private GameObject right;
     [SerializeField] private GameObject left;
-    [SerializeField] private GameObject down;
+    [SerializeField] private GameObject bottom;
+    [SerializeField] private DOTweenAnimation doTweenAnimation;
+
+    public struct InitParameter
+    {
+        public int activePartsCount;
+    }
 
     public enum Direction
     {
-        Up,
+        Top,
         Right,
         Left,
-        Down,
+        Bottom,
     }
 
-    public void Initialize(int activeCount)
+    public bool IsCompleted
+    {
+        get
+        {
+            var directions = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
+            return directions.TrueForAll(IsActive);
+        }
+    }
+
+    public void Initialize(InitParameter parameter)
     {
         var directions = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
         directions = ListUtility.Shuffle(directions);
         foreach (var (direction, index) in directions.WithIndex())
         {
-            UIUtility.TrySetActive(DirectionObject(direction), index < activeCount);
+            UIUtility.TrySetActive(DirectionObject(direction), index < parameter.activePartsCount);
         }
     }
 
@@ -31,12 +48,6 @@ public class Tadashi : MonoBehaviour
     {
         var directionObject = DirectionObject(direction);
         return directionObject != null && directionObject.activeSelf;
-    }
-
-    public bool IsCompleted()
-    {
-        var directions = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
-        return directions.TrueForAll(IsActive);
     }
 
     public void SetActive(Direction direction, bool isActive)
@@ -49,16 +60,33 @@ public class Tadashi : MonoBehaviour
         return DirectionObject(direction)?.transform;
     }
 
+    public async UniTask MoveIn()
+    {
+        await Move("in");
+    }
+
+    public async UniTask MoveOut()
+    {
+        await Move("out");
+    }
+
     private GameObject DirectionObject(Direction direction)
     {
-        switch(direction)
+        return direction switch
         {
-            case Direction.Up: return up;
-            case Direction.Right: return right;
-            case Direction.Left: return left;
-            case Direction.Down: return down;
-        }
+            Direction.Top => top,
+            Direction.Right => right,
+            Direction.Left => left,
+            Direction.Bottom => bottom,
+            _ => null,
+        };
+    }
 
-        return null;
+    private async UniTask Move(string id)
+    {
+        var completed = false;
+        doTweenAnimation.DOPlayById(id);
+        doTweenAnimation.GetTweens().Find(_x => _x.stringId == id)?.OnComplete(() => completed = true);
+        await UniTask.WaitUntil(() => completed);
     }
 }
