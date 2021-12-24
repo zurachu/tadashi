@@ -15,7 +15,7 @@ public class Factory : MonoBehaviour
     public Tadashi CurrentTadashi { get; private set; }
     public Action OnOverAttached { get; set; }
 
-    static readonly float attachDuration = 0.2f;
+    private static readonly float attachDuration = 0.2f;
 
     private bool isConveyorRunning;
 
