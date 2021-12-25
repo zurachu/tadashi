@@ -45,7 +45,7 @@ public class Payslip : MonoBehaviour
 
     public void OnClickTitle()
     {
-        SEManager.Instance.Play(SEPath.ENTER17);
+        CommonAudioPlayer.PlayCancel();
         SceneManager.LoadScene("TitleScene");
     }
 

@@ -906,6 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 478b26cd868a141c0849135cefcdb210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 941478947}
   factory: {fileID: 790247129}
   keyGuideCanvasGroup: {fileID: 431685919}
   timerText: {fileID: 2001245296}
@@ -914,6 +915,7 @@ MonoBehaviour:
   uncompletedObject: {fileID: 275703893}
   finishAnimation: {fileID: 573441441}
   payslip: {fileID: 1692029631}
+  leaderboardViewPrefab: {fileID: 559164344036296916, guid: 1d6564cd1846a4bb19096c9e070a46ea, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0

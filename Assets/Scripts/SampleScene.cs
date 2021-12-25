@@ -3,10 +3,12 @@ using DG.Tweening;
 using KanKikuchi.AudioManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SampleScene : MonoBehaviour
 {
+    [SerializeField] private Canvas canvas;
     [SerializeField] private Factory factory;
     [SerializeField] private CanvasGroup keyGuideCanvasGroup;
     [SerializeField] private Text timerText;
@@ -15,6 +17,7 @@ public class SampleScene : MonoBehaviour
     [SerializeField] private GameObject uncompletedObject;
     [SerializeField] private DOTweenAnimation finishAnimation;
     [SerializeField] private Payslip payslip;
+    [SerializeField] private LeaderboardView leaderboardViewPrefab;
 
     private static readonly int goalCompletedCount = 30;
 
@@ -25,6 +28,11 @@ public class SampleScene : MonoBehaviour
 
     private async void Start()
     {
+        if (!PlayFabLoginManagerService.Instance.LoggedIn)
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+
         factory.OnAttached = OnAttached;
         UpdateTimerText();
         remainingCounter.UpdateCount(RemainingCount);
@@ -168,6 +176,8 @@ public class SampleScene : MonoBehaviour
 
     private async void Finish()
     {
+        _ = PlayFabLeaderboardUtility.UpdatePlayerStatisticWithRetry("salary", scoreParameter.Price, 1000);
+
         factory.RunConveyor(null);
 
         await UniTask.Delay(500);
@@ -175,5 +185,6 @@ public class SampleScene : MonoBehaviour
         finishAnimation.DORestart();
         await UniTask.Delay(2000);
         await payslip.Play(scoreParameter);
+        Instantiate(leaderboardViewPrefab, canvas.transform).Initialize(30);
     }
 }

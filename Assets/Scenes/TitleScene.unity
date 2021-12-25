@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -405,8 +405,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b29621a9fb08d44b1b2979b39df0978e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 941478947}
   factory: {fileID: 790247129}
   blackFade: {fileID: 501130749}
+  leaderboardViewPrefab: {fileID: 559164344036296916, guid: 1d6564cd1846a4bb19096c9e070a46ea, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -757,7 +759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -980,7 +982,7 @@ GameObject:
   - component: {fileID: 1328470300}
   - component: {fileID: 1328470299}
   m_Layer: 5
-  m_Name: Button - Ranking
+  m_Name: Button - Leaderboard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1062,7 +1064,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1328470301}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 519420030}
+        m_TargetAssemblyTypeName: TitleScene, Assembly-CSharp
+        m_MethodName: OnClickLeaderboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1328470301
 MonoBehaviour:
   m_ObjectHideFlags: 0
