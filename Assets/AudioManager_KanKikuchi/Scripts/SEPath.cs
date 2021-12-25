@@ -16,6 +16,7 @@ public static class SEPath{
 	public const string GAMECLEAR_CUTE = "SE/gameclear_cute";
 	public const string MISTAKE        = "SE/mistake";
 	public const string RIGHT2         = "SE/right2";
+	public const string WHISTLE        = "SE/whistle";
 
 }
 

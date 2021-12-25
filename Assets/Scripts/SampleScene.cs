@@ -32,17 +32,20 @@ public class SampleScene : MonoBehaviour
         {
             SceneManager.LoadScene("TitleScene");
         }
+        else
+        {
+            factory.OnAttached = OnAttached;
+            UpdateTimerText();
+            remainingCounter.UpdateCount(RemainingCount);
+            UIUtility.TrySetActive(completedObject, false);
+            UIUtility.TrySetActive(uncompletedObject, false);
+            UIUtility.TrySetActive(finishAnimation, false);
+            SEManager.Instance.Play(SEPath.WHISTLE);
 
-        factory.OnAttached = OnAttached;
-        UpdateTimerText();
-        remainingCounter.UpdateCount(RemainingCount);
-        UIUtility.TrySetActive(completedObject, false);
-        UIUtility.TrySetActive(uncompletedObject, false);
-        UIUtility.TrySetActive(finishAnimation, false);
-
-        await UniTask.Delay(2000);
-        isPlaying = true;
-        StartWave();
+            await UniTask.Delay(2000);
+            isPlaying = true;
+            StartWave();
+        }
     }
 
     private void Update()
@@ -183,6 +186,7 @@ public class SampleScene : MonoBehaviour
         await UniTask.Delay(500);
         UIUtility.TrySetActive(finishAnimation, true);
         finishAnimation.DORestart();
+        SEManager.Instance.Play(SEPath.WHISTLE);
         await UniTask.Delay(2000);
         await payslip.Play(scoreParameter);
         Instantiate(leaderboardViewPrefab, canvas.transform).Initialize(30);
