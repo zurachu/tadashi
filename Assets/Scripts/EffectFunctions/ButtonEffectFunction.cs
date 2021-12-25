@@ -1,26 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(Button))]
-public class ButtonEffectFunction : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
+public class ButtonEffectFunction : MonoBehaviour
 {
-    public void OnPointerDown(PointerEventData eventData)
+    private void Start()
     {
-        if (GetComponent<Button>().interactable)
-        {
-            transform.DOScale(0.95f, 0.25f).SetLink(gameObject);
-        }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        transform.DOScale(1f, 0.25f).SetLink(gameObject);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        transform.DOScale(1f, 0.25f).SetLink(gameObject);
+        transform.DOScale(0.95f, 0.5f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo).SetLink(gameObject);
     }
 }

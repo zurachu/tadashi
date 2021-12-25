@@ -5,6 +5,7 @@
 /// </summary>
 public static class SEPath{
 
+	public const string ENTER17        = "SE/enter17";
 
 }
 
