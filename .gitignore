@@ -61,3 +61,5 @@ crashlytics-build.properties
 WebGL
 Recordings
 Assets/Plugins/Demigiant*
+Assets/PlayFabEditorExtensions*
+Assets/PlayFabSDK*
