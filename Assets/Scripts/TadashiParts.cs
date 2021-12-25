@@ -25,6 +25,8 @@ public class TadashiParts : MonoBehaviour
 
         var sequence = DOTween.Sequence();
         await sequence.Append(transform.DOScale(2f, 0.25f).From(1f))
-                      .Join(image.DOFade(0f, 0.25f).From(1f));
+                      .Join(image.DOFade(0f, 0.25f).From(1f))
+                      .SetLink(gameObject);
+        ;
     }
 }

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using KanKikuchi.AudioManager;
 using UnityEngine;
 
 public class Conveyor : MonoBehaviour
@@ -8,5 +9,6 @@ public class Conveyor : MonoBehaviour
     public void PlayAnimation()
     {
         doTweenAnimation.DORestart();
+        SEManager.Instance.Play(SEPath.DRIL3);
     }
 }

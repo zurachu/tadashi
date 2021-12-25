@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -10,16 +11,19 @@ public class Tadashi : MonoBehaviour
     [SerializeField] private GameObject right;
     [SerializeField] private GameObject left;
     [SerializeField] private GameObject bottom;
+    [SerializeField] private GameObject center;
     [SerializeField] private DOTweenAnimation doTweenAnimation;
 
     public struct InitParameter
     {
         public int activePartsCount;
+        public float angle;
     }
 
     public enum Direction
     {
         Top,
+        Center,
         Right,
         Left,
         Bottom,
@@ -36,12 +40,14 @@ public class Tadashi : MonoBehaviour
 
     public void Initialize(InitParameter parameter)
     {
-        var directions = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
-        directions = ListUtility.Shuffle(directions);
+        var directions = ListUtility.Shuffle(new List<Direction> { Direction.Top, Direction.Right, Direction.Left, Direction.Bottom });
         foreach (var (direction, index) in directions.WithIndex())
         {
             UIUtility.TrySetActive(DirectionObject(direction), index < parameter.activePartsCount);
         }
+
+        UIUtility.TrySetActive(DirectionObject(Direction.Center), true);
+        transform.localRotation = Quaternion.Euler(0, 0, parameter.angle);
     }
 
     public bool IsActive(Direction direction)
@@ -75,6 +81,7 @@ public class Tadashi : MonoBehaviour
         return direction switch
         {
             Direction.Top => top,
+            Direction.Center => center,
             Direction.Right => right,
             Direction.Left => left,
             Direction.Bottom => bottom,

@@ -13,7 +13,7 @@ public class Factory : MonoBehaviour
     [SerializeField] private TadashiParts bottomBase;
 
     public Tadashi CurrentTadashi { get; private set; }
-    public Action OnOverAttached { get; set; }
+    public Action<bool> OnAttached { get; set; }
 
     private static readonly float attachDuration = 0.2f;
 
@@ -67,18 +67,23 @@ public class Factory : MonoBehaviour
         var targetTransform = CurrentTadashi.Transform(direction);
         await DOTween.Sequence()
                      .Append(parts.transform.DOMove(targetTransform.position, attachDuration).From(baseTransform.position))
-                     .Join(parts.transform.DORotateQuaternion(targetTransform.rotation, attachDuration).From(baseTransform.rotation));
+                     .Join(parts.transform.DORotateQuaternion(targetTransform.rotation, attachDuration).From(baseTransform.rotation))
+                     .SetLink(gameObject);
 
         if (CurrentTadashi != null && !CurrentTadashi.IsActive(direction))
         {
+            OnAttached?.Invoke(true);
+
             CurrentTadashi.SetActive(direction, true);
             await parts.PlayAttachedAnimation();
             Destroy(parts.gameObject);
         }
         else
         {
+            OnAttached?.Invoke(false);
+
             var outOfScreen = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)) * Vector3.up * 1000;
-            await parts.transform.DOMove(outOfScreen, 0.5f).SetEase(Ease.Linear);
+            await parts.transform.DOMove(outOfScreen, 0.5f).SetEase(Ease.Linear).SetLink(gameObject);
             Destroy(parts.gameObject);
         }
     }
